@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --color-paper: #f7f4ee;
+  --color-paper-deep: #efeae1;
+
+  --color-navy-50: #f1f4f8;
+  --color-navy-100: #e4eaf2;
+  --color-navy-200: #c9d4e3;
+  --color-navy-300: #9cb0cc;
+  --color-navy-500: #4f6a93;
+  --color-navy-700: #2a4166;
+  --color-navy-800: #1e3150;
+  --color-navy-900: #15233b;
+  --color-navy-950: #0e1829;
+
+  --color-gold-300: #e3cf9c;
+  --color-gold-400: #cfae63;
+  --color-gold-500: #b8913f;
+  --color-gold-600: #94722b;
+
+  /* Warm the default neutrals so every slate-* class reads as paper and ink, not cool grey. */
+  --color-slate-50: #f4f1ea;
+  --color-slate-100: #ebe6dc;
+  --color-slate-200: #ddd6c9;
+  --color-slate-300: #c4bbab;
+  --color-slate-400: #9a9183;
+  --color-slate-500: #746c60;
+  --color-slate-600: #595248;
+  --color-slate-700: #3f3a33;
+  --color-slate-800: #2a2722;
+  --color-slate-900: #1b1d22;
+  --color-slate-950: #121417;
+
+  /* Status colours, desaturated. */
+  --color-emerald-50: #eef3ec;
+  --color-emerald-100: #dde8da;
+  --color-emerald-200: #c3d6be;
+  --color-emerald-500: #5a8a5e;
+  --color-emerald-600: #46764c;
+  --color-emerald-700: #355f3b;
+  --color-emerald-800: #284a2d;
+  --color-emerald-900: #1d3821;
+  --color-rose-50: #f8eee9;
+  --color-rose-100: #f0dcd3;
+  --color-rose-200: #e4c1b3;
+  --color-rose-400: #c47f68;
+  --color-rose-500: #ad5c43;
+  --color-rose-600: #9a4b33;
+  --color-rose-700: #823d28;
+  --color-rose-800: #66301f;
+  --color-amber-50: #f8f1e1;
+  --color-amber-100: #f0e3c2;
+  --color-amber-200: #e3cf9c;
+  --color-amber-300: #d8bd78;
+  --color-amber-500: #b8913f;
+  --color-amber-700: #7f5e1a;
+  --color-amber-800: #654a12;
+  --color-sky-50: #eef2f6;
+  --color-sky-100: #dde5ee;
+  --color-sky-200: #c3d1e0;
+  --color-sky-700: #3b5a7a;
+  --color-sky-800: #2e4862;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-paper text-slate-900 antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background: var(--color-gold-300);
+    color: var(--color-navy-950);
+  }
+
+  :where(a, button, summary, [tabindex], input[type="checkbox"]):focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  :where(input, select, textarea):focus-visible {
+    outline: none;
+  }
+}
+
+.field-focus:focus,
+.field-focus:focus-within {
+  border-color: var(--color-navy-700);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold-500) 22%, transparent);
+}
+
+.marquee {
+  animation: marquee 80s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.rule-dotted {
+  background-image: linear-gradient(to right, var(--color-slate-300) 1px, transparent 1px);
+  background-size: 4px 1px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
