@@ -35,6 +35,7 @@ Open http://localhost:5173. The landing page is at `/` and the workspace is at `
 
 - **No backend.** Data is saved in your browser. Use Settings to export, import, or reset to the demo data.
 - **Email** opens a pre-filled draft in Gmail, Outlook, or your mail app and logs it as sent. Nothing is sent automatically.
+- **Email summarizer.** On a deal page or in Outreach, click "Summarize email" and paste a reply. You get a summary, the sender's interest level, next steps you can turn into tasks, and a draft reply. Add an OpenAI or Anthropic key in Settings for AI summaries; without one it uses a basic built-in reader.
 - **Fit score** (A–D) compares each company to the buy box in Settings. The default buy box is $1–5M EBITDA, 15%+ margin, $5–30M revenue, and mostly recurring revenue.
 
 ## Scripts

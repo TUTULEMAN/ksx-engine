@@ -1,10 +1,11 @@
 import clsx from 'clsx';
-import { ArrowLeft, Briefcase, Mail, MessageSquareReply, Pencil, Phone, Plus, Send, Trash2, UserPlus } from 'lucide-react';
+import { ArrowLeft, Briefcase, Mail, MessageSquareReply, Pencil, Phone, Plus, Send, Sparkles, Trash2, UserPlus } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ContactForm } from '../components/ContactForm';
 import { DocumentTable, DocumentUploader } from '../components/DocumentList';
 import { EmailComposer, EnrollModal } from '../components/EmailComposer';
+import { EmailSummarizer } from '../components/EmailSummarizer';
 import { AddTaskForm, sortTasks, TaskRow } from '../components/TaskList';
 import { Badge, Button, Card, CardHeader, EmptyState, Field, FitBadge, Input, Select, Tabs, Textarea } from '../components/ui';
 import { ValuationModel } from '../components/ValuationModel';
@@ -38,6 +39,7 @@ export default function DealPage() {
   const [contactForm, setContactForm] = useState<{ contact?: Contact } | null>(null);
   const [linkId, setLinkId] = useState('');
   const [note, setNote] = useState('');
+  const [summarize, setSummarize] = useState(false);
 
   if (!deal || !company) return <EmptyState icon={<Briefcase size={20} />} title="Deal not found" action={<Link to="/app/pipeline">Back to pipeline</Link>} />;
 
@@ -71,6 +73,9 @@ export default function DealPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <Button onClick={() => setSummarize(true)}>
+            <Sparkles size={15} /> Summarize email
+          </Button>
           <Button onClick={() => setCompose({ contactId: contacts[0]?.id })}>
             <Mail size={15} /> Email
           </Button>
@@ -392,6 +397,7 @@ export default function DealPage() {
         )}
       </div>
 
+      <EmailSummarizer open={summarize} onClose={() => setSummarize(false)} contactId={contacts.find((c) => c.type === 'owner')?.id ?? contacts[0]?.id} dealId={deal.id} />
       <EmailComposer open={!!compose} onClose={() => setCompose(null)} contactId={compose?.contactId} dealId={deal.id} />
       <EnrollModal open={!!enrollFor} onClose={() => setEnrollFor(null)} contactId={enrollFor ?? undefined} dealId={deal.id} />
       <ContactForm open={!!contactForm} onClose={() => setContactForm(null)} contact={contactForm?.contact} dealId={deal.id} organization={company.name} />

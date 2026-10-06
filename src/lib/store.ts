@@ -340,5 +340,6 @@ export const useStore = create<AppState>()(
 export const exportData = (): Data => {
   const s = useStore.getState();
   const { companies, deals, contacts, templates, sequences, emails, enrollments, tasks, docs, activities, savedSearches, settings } = s;
-  return { companies, deals, contacts, templates, sequences, emails, enrollments, tasks, docs, activities, savedSearches, settings };
+  const safeSettings = settings.ai ? { ...settings, ai: { ...settings.ai, apiKey: '' } } : settings;
+  return { companies, deals, contacts, templates, sequences, emails, enrollments, tasks, docs, activities, savedSearches, settings: safeSettings };
 };

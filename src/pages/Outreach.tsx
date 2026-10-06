@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { Check, ExternalLink, Mail, MessageSquareReply, Pencil, Plus, Send, SkipForward, Square, Trash2 } from 'lucide-react';
+import { Check, ExternalLink, Mail, MessageSquareReply, Pencil, Plus, Send, SkipForward, Sparkles, Square, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmailComposer, EnrollModal } from '../components/EmailComposer';
+import { EmailSummarizer } from '../components/EmailSummarizer';
 import { Badge, Button, Card, CardHeader, EmptyState, Field, Input, Modal, NumberInput, PageHeader, Select, Stat, StatStrip, Tabs, Textarea } from '../components/ui';
 import { MERGE_FIELDS, openCompose } from '../lib/email';
 import { daysFromToday, fromDateInput, relDay, shortDate, toDateInput, uid } from '../lib/format';
@@ -17,6 +18,7 @@ export default function Outreach() {
   const [tab, setTab] = useState<Tab>('queue');
   const [compose, setCompose] = useState(false);
   const [enroll, setEnroll] = useState(false);
+  const [summarize, setSummarize] = useState(false);
 
   const scheduled = emails.filter((e) => e.status === 'scheduled').sort((a, b) => a.scheduledFor.localeCompare(b.scheduledFor));
   const due = scheduled.filter((e) => daysFromToday(e.scheduledFor) <= 0);
@@ -32,6 +34,9 @@ export default function Outreach() {
         subtitle="Personalized owner and broker outreach with automatic follow-ups"
         actions={
           <>
+            <Button onClick={() => setSummarize(true)}>
+              <Sparkles size={15} /> Summarize email
+            </Button>
             <Button onClick={() => setEnroll(true)}>
               <Send size={15} /> Enroll contact
             </Button>
@@ -70,6 +75,7 @@ export default function Outreach() {
 
       <EmailComposer open={compose} onClose={() => setCompose(false)} />
       <EnrollModal open={enroll} onClose={() => setEnroll(false)} />
+      <EmailSummarizer open={summarize} onClose={() => setSummarize(false)} />
     </>
   );
 }

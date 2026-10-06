@@ -3,12 +3,14 @@ import { useRef } from 'react';
 import { Button, Card, CardHeader, Field, Input, NumberInput, PageHeader, Select, Textarea } from '../components/ui';
 import { DEFAULT_BUY_BOX, INDUSTRY_NAMES } from '../lib/seed';
 import { exportData, useStore } from '../lib/store';
-import type { Settings as SettingsT } from '../lib/types';
+import { DEFAULT_AI, DEFAULT_MODELS } from '../lib/summarize';
+import type { AiSettings, Settings as SettingsT } from '../lib/types';
 
 export default function Settings() {
   const settings = useStore((s) => s.settings);
   const { updateSettings, updateBuyBox, resetDemo, clearAll, importData } = useStore();
   const box = settings.buyBox;
+  const ai = settings.ai ?? DEFAULT_AI;
   const fileRef = useRef<HTMLInputElement>(null);
 
   const download = () => {
@@ -96,6 +98,25 @@ export default function Settings() {
               </Field>
               <Field label="Signature" className="col-span-2">
                 <Textarea value={settings.signature} onChange={(e) => updateSettings({ signature: e.target.value })} rows={4} />
+              </Field>
+            </div>
+          </Card>
+
+          <Card>
+            <CardHeader title="Email summarizer" subtitle="Optional. Without a key, summaries use a basic built-in reader." />
+            <div className="grid grid-cols-2 gap-4 p-5">
+              <Field label="AI provider">
+                <Select value={ai.provider} onChange={(e) => updateSettings({ ai: { ...ai, provider: e.target.value as AiSettings['provider'], model: '' } })}>
+                  <option value="none">None (basic)</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                </Select>
+              </Field>
+              <Field label="Model" hint={ai.provider === 'none' ? undefined : `Leave blank for ${DEFAULT_MODELS[ai.provider]}`}>
+                <Input value={ai.model} onChange={(e) => updateSettings({ ai: { ...ai, model: e.target.value } })} disabled={ai.provider === 'none'} placeholder={ai.provider === 'none' ? '' : DEFAULT_MODELS[ai.provider]} />
+              </Field>
+              <Field label="API key" className="col-span-2" hint="Stored only in this browser and sent only to the provider you pick. Use a key with a spending limit.">
+                <Input type="password" value={ai.apiKey} onChange={(e) => updateSettings({ ai: { ...ai, apiKey: e.target.value } })} disabled={ai.provider === 'none'} autoComplete="off" />
               </Field>
             </div>
           </Card>

@@ -228,4 +228,11 @@ export interface Settings {
   signature: string;
   emailClient: 'mailto' | 'gmail' | 'outlook';
   buyBox: BuyBox;
+  ai?: AiSettings;
+}
+
+export interface AiSettings {
+  provider: 'none' | 'openai' | 'anthropic';
+  apiKey: string;
+  model: string;
 }
